@@ -12,6 +12,6 @@ namespace testFileUpload.Core.Data
         {
         }
 
-        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Models.Transaction> Transactions { get; set; }
     }
 }

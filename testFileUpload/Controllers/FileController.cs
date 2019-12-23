@@ -17,12 +17,16 @@ namespace testFileUpload.Controllers
     public class FileController : ControllerBase
     {
         private readonly ILogger<FileController> _logger;
-        private readonly AppDbContext _context;
         private readonly IFileService _fileService;
+        private readonly ITransactionService _transactionService;
         private readonly long _fileSizeLimit;
 
 
-        public FileController(ILogger<FileController> logger, AppDbContext context, IConfiguration config, IFileService fileService)
+        public FileController(
+            ILogger<FileController> logger, 
+            IConfiguration config, 
+            IFileService fileService, 
+            ITransactionService transactionService)
         {
             if (config is null)
             {
@@ -30,8 +34,8 @@ namespace testFileUpload.Controllers
             }
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _context = context ?? throw new ArgumentNullException(nameof(context));
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
+            _transactionService = transactionService ?? throw new ArgumentNullException(nameof(transactionService));
             _fileSizeLimit = config.GetValue<long>("FileSizeLimit");
 
             //// To save physical files to a path provided by configuration:
