@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testFileUpload", "testFileUpload\testFileUpload.csproj", "{7ADDB2B1-DD65-46DB-82D9-8F3E81635F19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "testFileUpload.Core", "testFileUpload.Core\testFileUpload.Core.csproj", "{91E6A921-D9FF-40E4-A861-5212B0448674}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testFileUpload.Core", "testFileUpload.Core\testFileUpload.Core.csproj", "{91E6A921-D9FF-40E4-A861-5212B0448674}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "testFileUpload.Tests", "testFileUpload.Tests\testFileUpload.Tests.csproj", "{F0CBFE73-C57B-4267-87B4-92310F340818}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testFileUpload.Tests", "testFileUpload.Tests\testFileUpload.Tests.csproj", "{F0CBFE73-C57B-4267-87B4-92310F340818}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "testFileUpload.Core.Tests", "testFileUpload.Core.Tests\testFileUpload.Core.Tests.csproj", "{58D8DE36-DB41-413D-B116-8084F0E3836B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testFileUpload.Core.Tests", "testFileUpload.Core.Tests\testFileUpload.Core.Tests.csproj", "{58D8DE36-DB41-413D-B116-8084F0E3836B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testFileUpload", "testFileUpload\testFileUpload.csproj", "{B0795DAC-CB4C-4782-A8A2-AF9A2A55F674}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7ADDB2B1-DD65-46DB-82D9-8F3E81635F19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7ADDB2B1-DD65-46DB-82D9-8F3E81635F19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7ADDB2B1-DD65-46DB-82D9-8F3E81635F19}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7ADDB2B1-DD65-46DB-82D9-8F3E81635F19}.Release|Any CPU.Build.0 = Release|Any CPU
 		{91E6A921-D9FF-40E4-A861-5212B0448674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{91E6A921-D9FF-40E4-A861-5212B0448674}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91E6A921-D9FF-40E4-A861-5212B0448674}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{58D8DE36-DB41-413D-B116-8084F0E3836B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58D8DE36-DB41-413D-B116-8084F0E3836B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58D8DE36-DB41-413D-B116-8084F0E3836B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0795DAC-CB4C-4782-A8A2-AF9A2A55F674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0795DAC-CB4C-4782-A8A2-AF9A2A55F674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0795DAC-CB4C-4782-A8A2-AF9A2A55F674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0795DAC-CB4C-4782-A8A2-AF9A2A55F674}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
