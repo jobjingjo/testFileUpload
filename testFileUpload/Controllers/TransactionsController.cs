@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using testFileUpload.Core.Data;
 using testFileUpload.Core.Models;
 using testFileUpload.Core.Services;
+using testFileUpload.Models;
 
 namespace testFileUpload.Controllers
 {
@@ -18,8 +20,13 @@ namespace testFileUpload.Controllers
     {
         private readonly ILogger<TransactionsController> _logger;
         private readonly ITransactionService _transactionService;
+        private readonly IMapper _mapper;
 
-        public TransactionsController(ILogger<TransactionsController> logger, ITransactionService transactionService, IConfiguration config)
+        public TransactionsController(
+            ILogger<TransactionsController> logger, 
+            ITransactionService transactionService, 
+            IConfiguration config,
+            IMapper mapper)
         {
             if (config is null)
             {
@@ -28,6 +35,7 @@ namespace testFileUpload.Controllers
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _transactionService = transactionService ?? throw new ArgumentNullException(nameof(transactionService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
 
@@ -42,8 +50,8 @@ namespace testFileUpload.Controllers
             {
                 return NotFound();
             }
-
-            return Ok(transactions);
+            var mappedResult = _mapper.Map<IList<Transaction>, IList<TransactionViewModel>>(transactions);
+            return Ok(mappedResult);
         }
 
         public async Task<IActionResult> ByDateRange(DateTime startDate,DateTime endDate)
@@ -59,7 +67,8 @@ namespace testFileUpload.Controllers
                 return NotFound();
             }
 
-            return Ok(transactions);
+            var mappedResult = _mapper.Map<IList<Transaction>, IList<TransactionViewModel>>(transactions);
+            return Ok(mappedResult);
         }
 
         public async Task<IActionResult> ByStatus(TransactionStatus status)
@@ -74,7 +83,8 @@ namespace testFileUpload.Controllers
                 return NotFound();
             }
 
-            return Ok(transactions);
+            var mappedResult = _mapper.Map<IList<Transaction>, IList<TransactionViewModel>>(transactions);
+            return Ok(mappedResult);
         }
 
     }

@@ -34,7 +34,7 @@ namespace testFileUpload
             //services.AddDbContext<TodoContext>(opt =>
             //     opt.UseInMemoryDatabase("TodoList"));
             //services.AddControllers();
-
+            services.AddAutoMapper(typeof(Startup));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
