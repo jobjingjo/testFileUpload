@@ -1,0 +1,15 @@
+image: Visual Studio 2019
+
+before_build:
+- nuget restore
+- choco install opencover.portable
+- choco install codecov
+
+build:
+  project: testFileUpload.sln
+  verbosity: minimal
+
+after_test: 
+    - dotnet test ./testFileUpload.sln --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+    - C:\ProgramData\chocolatey\lib\codecov\tools\codecov.exe -f .\test\testFileUpload.Tests\coverage.opencover.xml 
+    - C:\ProgramData\chocolatey\lib\codecov\tools\codecov.exe -f .\test\testFileUpload.Core.Tests\coverage.opencover.xml 
