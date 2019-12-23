@@ -1,0 +1,4 @@
+﻿[{ "id":"Inv00001", "payment":"200.00 USD", "Status": "D"},
+{ "id":"Inv00002", "payment":"10000.00 EUR", "Status": "R"},
+{ "id":"Invoice0000001", "payment":"1000.00 USD", "Status": "A"},
+{ "id":"Invoice0000002", "payment":"300.00 USD", "Status": "R"}]
