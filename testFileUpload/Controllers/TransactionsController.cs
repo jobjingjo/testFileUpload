@@ -38,7 +38,8 @@ namespace testFileUpload.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-
+        [Route("transactions/byCurrency")]
+        [HttpGet]
         public async Task<IActionResult> ByCurrency(string currency)
         {
             //validate input currency
@@ -54,6 +55,8 @@ namespace testFileUpload.Controllers
             return Ok(mappedResult);
         }
 
+        [Route("transactions/byDateRange")]
+        [HttpPost]
         public async Task<IActionResult> ByDateRange(DateTime startDate,DateTime endDate)
         {
             //validate startDate endDate
@@ -71,6 +74,8 @@ namespace testFileUpload.Controllers
             return Ok(mappedResult);
         }
 
+        [Route("transactions/byStatus")]
+        [HttpPost]
         public async Task<IActionResult> ByStatus(TransactionStatus status)
         {
             //validate status

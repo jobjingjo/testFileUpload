@@ -44,6 +44,8 @@ namespace testFileUpload.Controllers
             // To save physical files to the temporary files folder, use:
             //_targetFilePath = Path.GetTempPath();
         }
+        [Route("upload")]
+        [HttpPost]
         public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
