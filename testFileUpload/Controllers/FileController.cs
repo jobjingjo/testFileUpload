@@ -58,7 +58,7 @@ namespace testFileUpload.Controllers
 
                     using (var stream = System.IO.File.Create(filePath))
                     {
-                        if (stream.Length> _fileSizeLimit)
+                        if (stream.Length > _fileSizeLimit)
                         {
                             return BadRequest("File is too big");
                         }
@@ -69,18 +69,17 @@ namespace testFileUpload.Controllers
                             return BadRequest("Unknown format");
                         }
                         else if (importResult.Status == ImportResultStatus.InvalidValidation)
-                        {                            
-                                return BadRequest();
-                        }
-                        else if (importResult.Status == ImportResultStatus.SystemError)
                         {
                             return BadRequest();
                         }
-                        else
+                        else if (importResult.Status == ImportResultStatus.SystemError)
                         {
-                            await _transactionService.SaveTransaction(importResult.Transactions);
-                            return Ok();
+                            return Problem();
                         }
+
+                        var success = await _transactionService.SaveTransaction(importResult.Transactions);
+                        if (!success) return Problem();
+                        return Ok();
                     }
 
                 }

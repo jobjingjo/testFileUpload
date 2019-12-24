@@ -55,5 +55,12 @@ namespace testFileUpload.Core.Data
                 .ToListAsync();
             return transactions;
         }
+
+        public async Task<bool> SaveTransaction(IList<Transaction> transactions)
+        {
+            await _context.Transactions.AddRangeAsync(transactions);
+            var change = await _context.SaveChangesAsync();
+            return change == transactions.Count;
+        }
     }
 }

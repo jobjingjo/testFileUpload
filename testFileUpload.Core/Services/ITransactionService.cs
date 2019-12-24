@@ -11,6 +11,6 @@ namespace testFileUpload.Core.Services
         Task<List<Transaction>> GetByCurrency(string currency);
         Task<List<Transaction>> GetByDateRange(DateTime startDate, DateTime endDate);
         Task<List<Transaction>> GetByStatus(TransactionStatus status);
-        Task SaveTransaction(IList<Transaction> transactions);
+        Task<bool> SaveTransaction(IList<Transaction> transactions);
     }
 }

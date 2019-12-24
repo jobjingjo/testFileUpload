@@ -34,5 +34,10 @@ namespace testFileUpload.Core.Services
         {
             return await _transactionsRepository.GetByStatus(status);
         }
+
+        public async Task<bool> SaveTransaction(IList<Transaction> transactions)
+        {
+            return await _transactionsRepository.SaveTransaction(transactions);
+        }
     }
 }
