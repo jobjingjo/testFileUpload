@@ -10,52 +10,29 @@ namespace testFileUpload.Core.Services
 {
     public class TransactionService : ITransactionService
     {
+        private readonly ITransactionsRepository _transactionsRepository;
+
         //private readonly AppDbContext _context;
 
         public TransactionService(
-            //AppDbContext context
+            ITransactionsRepository transactionsRepository
             ) {
-            //_context = context ?? throw new ArgumentNullException(nameof(context));
+            _transactionsRepository = transactionsRepository ?? throw new ArgumentNullException(nameof(transactionsRepository));
         }
 
         public async Task<List<Transaction>> GetByCurrency(string currency)
         {
-
-            List<Transaction> transactions =new List<Transaction>();
-            transactions.Add(new Transaction()
-            {
-                Id = "inv-xxx-xx",
-                Amount = 1,
-                CurrencyCode = currency,
-                Status = TransactionStatus.Done,
-                TransactionDate = DateTime.Today
-            });
-            return await Task.FromResult(transactions);
-
-            //var transactions = await _context.Transactions.Where(t => t.CurrencyCode == currency)
-            //    .AsNoTracking()
-            //    .ToListAsync();
-            //return transactions;
+            return await _transactionsRepository.GetByCurrency(currency);
         }
 
         public async Task<List<Transaction>> GetByDateRange(DateTime startDate, DateTime endDate)
-        {
-            //var transactions = await _context.Transactions
-            //    .Where(t => t.TransactionDate>=startDate)
-            //    .Where(t => t.TransactionDate <= endDate)
-            //    .AsNoTracking()
-            //    .ToListAsync();
-            //return transactions;
-            throw new NotImplementedException();
+        {    
+            return await _transactionsRepository.GetByDateRangeAsync(startDate, endDate);
         }
 
         public async Task<List<Transaction>> GetByStatus(TransactionStatus status)
         {
-            //var transactions = await _context.Transactions.Where(t => t.Status == status)
-            //   .AsNoTracking()
-            //   .ToListAsync();
-            //return transactions;
-            throw new NotImplementedException();
+            return await _transactionsRepository.GetByStatus(status);
         }
     }
 }

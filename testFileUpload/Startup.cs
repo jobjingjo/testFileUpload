@@ -41,6 +41,7 @@ namespace testFileUpload
 
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<ITransactionsRepository, TransactionsRepository>();
             //services.AddTransient<IOperationTransient, Operation>();
             //services.AddScoped<IOperationScoped, Operation>();
             //services.AddSingleton<IOperationSingleton, Operation>();
