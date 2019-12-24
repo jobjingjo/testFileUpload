@@ -18,6 +18,8 @@ namespace testFileUpload.Core.Tests.Services
             FileStream stream = File.Open("input.xml",FileMode.Open);
             var result = target.Validate(stream);
             Assert.AreEqual(ImportResultStatus.Ok, result.Status);
+            Assert.AreEqual(0, result.Errors.Count);
+            Assert.AreNotEqual(0, result.Transactions.Count);
         }
 
         [TestMethod]
@@ -27,6 +29,8 @@ namespace testFileUpload.Core.Tests.Services
             FileStream stream = File.Open("input.csv", FileMode.Open);
             var result = target.Validate(stream);
             Assert.AreEqual(ImportResultStatus.Ok, result.Status);
+            Assert.AreEqual(0, result.Errors.Count);
+            Assert.AreNotEqual(0, result.Transactions.Count);
         }
     }
 }
