@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using testFileUpload.Core.Data;
+using testFileUpload.Core.Services;
 
 namespace testFileUpload
 {
@@ -31,10 +33,18 @@ namespace testFileUpload
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
+            //services.AddDbContext<AppDbContext>();
             //services.AddDbContext<TodoContext>(opt =>
             //     opt.UseInMemoryDatabase("TodoList"));
             //services.AddControllers();
+
+            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<ITransactionService, TransactionService>();
+            //services.AddTransient<IOperationTransient, Operation>();
+            //services.AddScoped<IOperationScoped, Operation>();
+            //services.AddSingleton<IOperationSingleton, Operation>();
+            //services.AddSingleton<IOperationSingletonInstance>(new Operation(Guid.Empty));
+            //services.AddSingleton<AppDbContext>();
             services.AddAutoMapper(typeof(Startup));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
