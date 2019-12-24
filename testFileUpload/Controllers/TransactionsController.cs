@@ -56,7 +56,7 @@ namespace testFileUpload.Controllers
         }
 
         [Route("transactions/byDateRange")]
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> ByDateRange(DateTime startDate,DateTime endDate)
         {
             //validate startDate endDate
@@ -75,7 +75,7 @@ namespace testFileUpload.Controllers
         }
 
         [Route("transactions/byStatus")]
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> ByStatus(TransactionStatus status)
         {
             //validate status
