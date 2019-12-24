@@ -51,12 +51,18 @@ namespace testFileUpload.Core.Services
                         }
                         else {
                             var args = line.Split(new[] { "\"," }, StringSplitOptions.RemoveEmptyEntries);
+
                             if (args.Length < 5)
                             {
                                 result.AddError(elementIndex, "not enough parameter");
                             }
                             else
                             {
+                                for (int i = 0; i < args.Length; i++)
+                                {
+                                    args[i] = args[i].Replace("\"", "").Trim();
+                                }
+
                                 string id = ValidateId(result, elementIndex, args);
 
                                 decimal dAmount = ValidateAmount(result, elementIndex, args);
