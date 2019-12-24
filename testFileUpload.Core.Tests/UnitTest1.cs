@@ -1,5 +1,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using testFileUpload.Core.Models;
+using testFileUpload.Core.Types;
 
 namespace testFileUpload.Core.Tests
 {
@@ -10,7 +12,7 @@ namespace testFileUpload.Core.Tests
         public void ToXml()
         {
             TransactionFile file = new TransactionFile();
-            file.Add(new Transaction()
+            file.Add(new XmlTransaction()
             {
                 Id = "Inv00001",
                 TransactionDate = DateTime.Parse("2019-01-23T13:45:10"),
@@ -19,9 +21,9 @@ namespace testFileUpload.Core.Tests
                     Amount = 200,
                     CurrencyCode = "USD"
                 },
-                Status = Status.Done
+                Status = XmlStatus.Done
             });
-            file.Add(new Transaction()
+            file.Add(new XmlTransaction()
             {
                 Id = "Inv00002",
                 TransactionDate = DateTime.Parse("2019-01-24T16:09:15"),
@@ -30,7 +32,7 @@ namespace testFileUpload.Core.Tests
                     Amount = 1000,
                     CurrencyCode = "EUR"
                 },
-                Status = Status.Rejected
+                Status = XmlStatus.Rejected
             });
             Assert.AreEqual("", file.ToXml());
 

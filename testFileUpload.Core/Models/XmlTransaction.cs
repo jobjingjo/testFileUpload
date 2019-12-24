@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Xml.Serialization;
+using testFileUpload.Core.Types;
 
-namespace testFileUpload.Core
+namespace testFileUpload.Core.Models
 {
-    public class Transaction
+    public class XmlTransaction
     {
         [XmlAttribute]
         [MaxLength(50)]
@@ -14,7 +14,7 @@ namespace testFileUpload.Core
         //Date Format yyyy-MM-ddThh:mm:ss e.g. 2019-0123T13:45:10 
         public DateTime TransactionDate { get; set; }
         public PaymentDetails PaymentDetails { get; set; }
-        public Status Status { get; set; }
+        public XmlStatus Status { get; set; }
     }
 
     public class PaymentDetails
@@ -23,16 +23,8 @@ namespace testFileUpload.Core
         public string CurrencyCode { get; set; }
     }
 
-    public enum Status
-    {
-        Unknown = 0,
-        Approved,
-        Rejected,
-        Done
-    }
-
     [XmlRoot("Transactions")]
-    public class TransactionFile : List<Transaction>
+    public class TransactionFile : List<XmlTransaction>
     {
 
     }

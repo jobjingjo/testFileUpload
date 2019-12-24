@@ -15,7 +15,7 @@ namespace testFileUpload.Mappers
                 .ForMember(dest =>dest.Id,
                             opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest =>
-                            dest.payment,
+                            dest.Payment,
                             opt => opt.MapFrom(src => $"{src.Amount} {src.CurrencyCode}"))
                 .ForMember(dest =>
                             dest.Status,
