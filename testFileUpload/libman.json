@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "angular.js@1.7.8",
+      "destination": "wwwroot/lib/angular.js/",
+      "files": [
+        "angular.min.js",
+        "angular-mocks.js",
+        "angular-resource.js",
+        "angular-resource.min.js",
+        "angular-resource.min.js.map",
+        "angular-route.js",
+        "angular-route.min.js",
+        "angular-route.min.js.map",
+        "angular-sanitize.js",
+        "angular-sanitize.min.js",
+        "angular-sanitize.min.js.map",
+        "angular.js",
+        "angular.min.js.map"
+      ]
+    }
+  ]
+}
