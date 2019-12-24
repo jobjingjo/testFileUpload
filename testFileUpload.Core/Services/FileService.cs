@@ -9,6 +9,9 @@ namespace testFileUpload.Core.Services
 {
     public class FileService : IFileService
     {
+        public FileService() { 
+        
+        }
         public readonly string CSV = "text/csv";
         public readonly string XML = "application/xml";
         public Task<ImportResult> Import(string contentType, FileStream stream)
@@ -27,7 +30,9 @@ namespace testFileUpload.Core.Services
                 importer = new XmlImporter();
             }
 
-            //result = importer.Validate(stream);
+            result = importer.Validate(stream);
+            //add transaction to repo here
+
             return Task.FromResult(result);
         }
     }

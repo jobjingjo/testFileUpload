@@ -7,6 +7,8 @@ namespace testFileUpload.Core.Models
     public enum ImportResultStatus
     {
         InvalidType,
-        InvalidValidation
+        InvalidValidation,
+        SystemError,
+        Ok
     }
 }

@@ -6,6 +6,8 @@ using testFileUpload.Core.Types;
 
 namespace testFileUpload.Core.Models
 {
+    [Serializable]
+    [XmlRoot("Transaction")]
     public class XmlTransaction
     {
         [XmlAttribute]
@@ -33,9 +35,12 @@ namespace testFileUpload.Core.Models
     {
         public static string ToXml<T>(this T transaction)
         {
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+
             using var stringWriter = new System.IO.StringWriter();
             var serializer = new XmlSerializer(typeof(T));
-            serializer.Serialize(stringWriter, transaction);
+            serializer.Serialize(stringWriter, transaction, ns);
             return stringWriter.ToString();
         }
 

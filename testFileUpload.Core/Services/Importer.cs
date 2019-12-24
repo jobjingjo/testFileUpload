@@ -1,39 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using testFileUpload.Core.Models;
 
 namespace testFileUpload.Core.Services
 {
     public abstract class Importer
     {
+        public Importer() { 
+        
+        }
+        public virtual ImportResult Validate(FileStream stream)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class NullImporter : Importer
     {
-    }
-
-    public class CsvImporter:Importer
-    {
-        /*
-         * StreamReader reader = new StreamReader( stream );
-string text = reader.ReadToEnd();
-         */
-    }
-
-    public class XmlImporter :Importer
-    {
-        /*
-         * using (XmlReader reader = XmlReader.Create(inputStream)
-{
-    if (CorrectFileFormat(reader))
-    {
-        DisplayLicenseInfo(reader);
-    }
-    else
-    {
-        StatusLabel.Text = "Selected file is not a LicensingDiag XML file";
-    }
-}
-         */
+        public override ImportResult Validate(FileStream stream)
+        {
+            return new ImportResult()
+            {
+                Status = ImportResultStatus.InvalidType
+            };
+        }
     }
 }
