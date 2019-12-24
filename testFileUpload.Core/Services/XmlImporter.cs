@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using testFileUpload.Core.Models;
+using testFileUpload.Core.Types;
 
 namespace testFileUpload.Core.Services
 {
@@ -112,7 +113,7 @@ namespace testFileUpload.Core.Services
             //validate
             if (!_currencyService.Exists(detailCurrencyCode))
             {
-                result.AddError(elementIndex, $"{AMOUNT} incorrect format");
+                result.AddError(elementIndex, $"{CURRENCY_CODE} incorrect format");
             }
 
             return detailCurrencyCode;
@@ -177,14 +178,23 @@ namespace testFileUpload.Core.Services
             var status = (string)row.Element(STATUS);
             if (string.IsNullOrEmpty(status))
             {
-                result.AddError(elementIndex, $"{CURRENCY_CODE} not found");
+                result.AddError(elementIndex, $"{STATUS} not found");
             }
-            if (!Enum.TryParse(typeof(TransactionStatus), status, out object tsTransactionStatus))
+            if (!Enum.TryParse(typeof(XmlStatus), status, out object tsTransactionStatus))
             {
-                result.AddError(elementIndex, $"{CURRENCY_CODE} not found");
+                result.AddError(elementIndex, $"{STATUS} not found");
             }
 
-            return (TransactionStatus)tsTransactionStatus;
+            switch (tsTransactionStatus)
+            {
+                case XmlStatus.Approved:
+                    return TransactionStatus.Approved;
+                case XmlStatus.Rejected:
+                    return TransactionStatus.Rejected;
+                case XmlStatus.Done:
+                    return TransactionStatus.Done;
+            }
+            return TransactionStatus.Unknow;
         }
     }
 }
