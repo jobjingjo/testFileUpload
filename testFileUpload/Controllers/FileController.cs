@@ -58,7 +58,11 @@ namespace testFileUpload.Controllers
 
                     using (var stream = System.IO.File.Create(filePath))
                     {
-                        //await formFile.CopyToAsync(stream);
+                        if (stream.Length> _fileSizeLimit)
+                        {
+                            return BadRequest("File is too big");
+                        }
+
                         var importResult = await _fileService.Import(formFile.ContentType, stream);
                         if (importResult.Status == ImportResultStatus.InvalidType)
                         {
@@ -68,8 +72,13 @@ namespace testFileUpload.Controllers
                         {                            
                                 return BadRequest();
                         }
+                        else if (importResult.Status == ImportResultStatus.SystemError)
+                        {
+                            return BadRequest();
+                        }
                         else
                         {
+                            await _transactionService.SaveTransaction(importResult.Transactions);
                             return Ok();
                         }
                     }
