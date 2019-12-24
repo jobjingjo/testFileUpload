@@ -13,10 +13,10 @@ namespace testFileUpload.Core.Services
         private readonly AppDbContext _context;
 
         public TransactionService(AppDbContext context) {
-            _context = context ?? throw new System.ArgumentNullException(nameof(context));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<List<Models.Transaction>> GetByCurrency(string currency)
+        public async Task<List<Transaction>> GetByCurrency(string currency)
         {
             var transactions = await _context.Transactions.Where(t => t.CurrencyCode == currency)
                 .AsNoTracking()
@@ -24,7 +24,7 @@ namespace testFileUpload.Core.Services
             return transactions;
         }
 
-        public async Task<List<Models.Transaction>> GetByDateRange(DateTime startDate, DateTime endDate)
+        public async Task<List<Transaction>> GetByDateRange(DateTime startDate, DateTime endDate)
         {
             var transactions = await _context.Transactions
                 .Where(t => t.TransactionDate>=startDate)
@@ -34,7 +34,7 @@ namespace testFileUpload.Core.Services
             return transactions;
         }
 
-        public async Task<List<Models.Transaction>> GetByStatus(TransactionStatus status)
+        public async Task<List<Transaction>> GetByStatus(TransactionStatus status)
         {
             var transactions = await _context.Transactions.Where(t => t.Status == status)
                .AsNoTracking()

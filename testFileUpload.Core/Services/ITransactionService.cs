@@ -8,8 +8,8 @@ namespace testFileUpload.Core.Services
 {
     public interface ITransactionService
     {
-        Task<List<Models.Transaction>> GetByCurrency(string currency);
-        Task<List<Models.Transaction>> GetByDateRange(DateTime startDate, DateTime endDate);
-        Task<List<Models.Transaction>> GetByStatus(TransactionStatus status);
+        Task<List<Transaction>> GetByCurrency(string currency);
+        Task<List<Transaction>> GetByDateRange(DateTime startDate, DateTime endDate);
+        Task<List<Transaction>> GetByStatus(TransactionStatus status);
     }
 }
