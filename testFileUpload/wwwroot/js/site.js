@@ -26,18 +26,49 @@
     });
 }());
 
-(function () {
+(function() {
     "use strict";
-    function fileUploadController($rootScope, $scope, $timeout, $window) {
-        $scope.fileSelected = function () {
-            console.log($scope.transaction_file);
-        };
 
-        $scope.startUploading = function() {
-            console.log($scope.transaction_file);
-        };
+    function fileUploadController($rootScope, $scope, $timeout, $window, $q, $http) {
+        var vm = this;
+
+        vm.startUploading = startUploading;
+
+        function startUploading() {
+            if ($scope.transaction_file && $scope.transaction_file.length>0)
+            uploadFile($scope.transaction_file[0]).then(() => {
+                console.log("OK");
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+
+
+        function uploadFile(file) {
+            var deferred = $q.defer();
+            if (file.size <= 4000000) {
+                const fd = new FormData();
+                fd.append('file', file);
+                $http.post("upload",
+                        fd,
+                        {
+                            transformRequest: angular.identity,
+                            headers: { 'Content-Type': undefined }
+                        })
+                    .then(function(response) {
+                        deferred.resolve(true);
+                    })["catch"](function(reason) {
+                        deferred.reject(reason.Message);
+                    });
+            } else {
+                deferred.reject('file too large');
+            }
+
+            return deferred.promise;
+        }
     }
-    fileUploadController.$inject = ['$rootScope', '$scope', '$timeout', '$window'];
+
+    fileUploadController.$inject = ['$rootScope', '$scope', '$timeout', '$window', '$q', '$http'];
     angular.module('myApp').controller('fileUploadController', fileUploadController);
 
 }());
