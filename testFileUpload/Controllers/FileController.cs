@@ -56,14 +56,16 @@ namespace testFileUpload.Controllers
                 {
                     var filePath = Path.GetTempFileName();
 
-                    using (var stream = System.IO.File.Create(filePath))
+                    using (var stream = new FileStream(filePath,FileMode.Create))
                     {
-                        if (stream.Length > _fileSizeLimit)
+                        formFile.CopyTo(stream);
+                        if (formFile.Length > _fileSizeLimit)
                         {
                             return BadRequest("File is too big");
                         }
 
-                        var importResult = await _fileService.Import(formFile.ContentType, stream);
+                        stream.Seek(0, SeekOrigin.Begin);
+                        var importResult = _fileService.Import(formFile.ContentType, stream);
                         if (importResult.Status == ImportResultStatus.InvalidType)
                         {
                             return BadRequest("Unknown format");

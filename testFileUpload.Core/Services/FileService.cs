@@ -14,7 +14,7 @@ namespace testFileUpload.Core.Services
         }
         public readonly string CSV = "application/vnd.ms-excel";
         public readonly string XML = "text/xml";
-        public Task<ImportResult> Import(string contentType, FileStream stream)
+        public ImportResult Import(string contentType, FileStream stream)
         {
             ImportResult result = new ImportResult()
             {
@@ -33,7 +33,7 @@ namespace testFileUpload.Core.Services
             result = importer.Validate(stream);
             //add transaction to repo here
 
-            return Task.FromResult(result);
+            return result;
         }
     }
 }

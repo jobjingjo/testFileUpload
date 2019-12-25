@@ -9,6 +9,6 @@ namespace testFileUpload.Core.Services
 {
     public interface IFileService
     {
-        Task<ImportResult> Import(string contentType, FileStream stream);
+        ImportResult Import(string contentType, FileStream stream);
     }
 }
