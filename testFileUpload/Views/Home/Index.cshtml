@@ -8,20 +8,22 @@
 
         <div class="form-group">
             <form class="form" id="upload_form" enctype="multipart/form-data" method="post" action="upload" ng-controller="fileUploadController as vm">
-                <div>
-                    <div><label for="transaction_file">Please select image file</label></div>
-                    <div><input file-binder type="file" name="transaction_file" id="transaction_file" accept=".xml,.csv"/></div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="transaction_file">Please select image file</label>
+                        <input class="btn btn-primary" file-binder type="file" name="transaction_file" id="transaction_file" accept=".xml,.csv"/>
+                    </div>
                 </div>
-                <div>
-                    <input type="button" value="Upload" ng-click="vm.startUploading()" />
+                <div class="row">
+                    <input class="btn btn-primary" type="button" value="Upload" ng-click="vm.startUploading()" ng-disabled="!transaction_file" />
                 </div>
             </form>
             
-            <ul>
-                <li><a href="https://localhost:44371/transactions/byCurrency?currency=USD">Sample by currency USD</a></li>
-                <li><a href="https://localhost:44371/transactions/byDateRange?startDate=2019-01-01&endDate=2019-12-31">Sample by Date between 2019-01-01 - 2019-12-31</a></li>
-                <li><a href="https://localhost:44371/transactions/byStatus?status=Approved">Sample by status Approved</a></li>
-                <li><a href="https://localhost:44371/swagger/index.html">swagger</a></li>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="https://localhost:44371/transactions/byCurrency?currency=USD">Sample by currency USD</a></li>
+                <li class="list-group-item"><a href="https://localhost:44371/transactions/byDateRange?startDate=2019-01-01&endDate=2019-12-31">Sample by Date between 2019-01-01 - 2019-12-31</a></li>
+                <li class="list-group-item"><a href="https://localhost:44371/transactions/byStatus?status=Approved">Sample by status Approved</a></li>
+                <li class="list-group-item"><a href="https://localhost:44371/swagger/index.html">swagger</a></li>
             </ul>
         </div>
     </div>
