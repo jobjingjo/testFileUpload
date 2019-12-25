@@ -150,7 +150,7 @@ namespace testFileUpload.Core.Services
             {
                 result.AddError(elementIndex, $"{TRANSACTION_DATE} not found");
             }
-            if (!DateTime.TryParseExact(transactionDate, "yyyy-MM-dd'T'hh:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtTransactionDate))
+            if (!DateTime.TryParseExact(transactionDate, "yyyy-MM-dd'T'HH:mm:ss", null, DateTimeStyles.None, out DateTime dtTransactionDate))
             {
                 result.AddError(elementIndex, $"{TRANSACTION_DATE} incorrect format");
             }
