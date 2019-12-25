@@ -43,6 +43,12 @@ namespace testFileUpload.Core.Services
                     string text = reader.ReadToEnd();
                     var lines = text.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                     int elementIndex = 0;
+                    if (lines.Length == 0)
+                    {
+                        result.Status = ImportResultStatus.NoData;
+                        return result;
+                    }
+
                     foreach (var line in lines) {
                         //process line
                         if (!line.Contains("\","))

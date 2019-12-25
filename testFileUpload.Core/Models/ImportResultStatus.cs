@@ -10,6 +10,7 @@ namespace testFileUpload.Core.Models
         InvalidValidation,
         SystemError,
         Ok,
-        InvalidSize
+        InvalidSize,
+        NoData
     }
 }
