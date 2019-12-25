@@ -76,6 +76,10 @@ namespace testFileUpload.Controllers
                         {
                             return Problem();
                         }
+                        else if (importResult.Status == ImportResultStatus.NoData)
+                        {
+                            return BadRequest();
+                        }
 
                         var success = await _transactionService.SaveTransaction(importResult.Transactions);
                         if (!success) return Problem();
