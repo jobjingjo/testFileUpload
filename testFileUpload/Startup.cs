@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -34,19 +35,14 @@ namespace testFileUpload
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            //services.AddDbContext<AppDbContext>();
-            //services.AddDbContext<TodoContext>(opt =>
-            //     opt.UseInMemoryDatabase("TodoList"));
-            //services.AddControllers();
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
 
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();
-            //services.AddTransient<IOperationTransient, Operation>();
-            //services.AddScoped<IOperationScoped, Operation>();
-            //services.AddSingleton<IOperationSingleton, Operation>();
-            //services.AddSingleton<IOperationSingletonInstance>(new Operation(Guid.Empty));
-            //services.AddSingleton<AppDbContext>();
             services.AddAutoMapper(typeof(Startup));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
