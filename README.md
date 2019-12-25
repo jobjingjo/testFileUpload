@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/gkg0hc7dhoqskbqv?svg=true)](https://ci.appveyor.com/project/jobjingjo/testfileupload)
+[![Build status](https://ci.appveyor.com/api/projects/status/gkg0hc7dhoqskbqv?svg=true)](https://ci.appveyor.com/project/jobjingjo/testfileupload) [![codecov](https://codecov.io/gh/jobjingjo/testFileUpload/branch/master/graph/badge.svg)](https://codecov.io/gh/jobjingjo/testFileUpload)
 
 # testFileUpload
 a simple ASP.NET File Upload 

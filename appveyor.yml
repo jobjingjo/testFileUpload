@@ -11,5 +11,5 @@ build:
 
 after_test: 
     - dotnet test ./testFileUpload.sln --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-    - C:\ProgramData\chocolatey\lib\codecov\tools\codecov.exe -f .\test\testFileUpload.Tests\coverage.opencover.xml 
-    - C:\ProgramData\chocolatey\lib\codecov\tools\codecov.exe -f .\test\testFileUpload.Core.Tests\coverage.opencover.xml 
+    - C:\ProgramData\chocolatey\lib\codecov\tools\codecov.exe -f .\test\testFileUpload.Tests\coverage.opencover.xml -t 1015e88e-3a63-4325-b8bc-26ccb69ff525
+    - C:\ProgramData\chocolatey\lib\codecov\tools\codecov.exe -f .\test\testFileUpload.Core.Tests\coverage.opencover.xml -t 1015e88e-3a63-4325-b8bc-26ccb69ff525
