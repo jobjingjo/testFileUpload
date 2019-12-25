@@ -48,7 +48,7 @@
             var deferred = $q.defer();
             if (file.size <= 1000000) {
                 const fd = new FormData();
-                fd.append('file', file);
+                fd.append('files', file);
                 $http.post("upload",
                         fd,
                         {
