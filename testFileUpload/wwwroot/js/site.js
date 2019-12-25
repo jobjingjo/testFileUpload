@@ -14,26 +14,30 @@
 
 (function () {
     "use strict";
-    function withdrawController($rootScope, $scope, accountService, $timeout, $window) {
-
-        $scope.doWithdraw = function () {
-            accountService.withdraw($scope.amount).then(x => {
-                $rootScope.balance = x;
-                $rootScope.error = false;
-                console.log(x);
-                $('.toast').toast('show');
-
-                $timeout(function () { $window.location.href = 'https://localhost:44318/Account/Index'; }, 1000);
-
-            }).catch(err => {
-                $rootScope.error = true;
-                $rootScope.errorMessage = err;
-                $('.toast').toast('show');
-                console.log(err);
+    angular.module('myApp').directive('fileBinder', function () {
+        return function (scope, elm, attrs) {
+            elm.bind('change', function (evt) {
+                scope.$apply(function () {
+                    scope[attrs.name] = evt.target.files;
+                    console.log(scope[attrs.name]);
+                });
             });
         };
+    });
+}());
+
+(function () {
+    "use strict";
+    function fileUploadController($rootScope, $scope, $timeout, $window) {
+        $scope.fileSelected = function () {
+            console.log($scope.transaction_file);
+        };
+
+        $scope.startUploading = function() {
+            console.log($scope.transaction_file);
+        };
     }
-    withdrawController.$inject = ['$rootScope', '$scope', 'accountService', '$timeout', '$window'];
-    angular.module('myApp').controller('withdrawController', withdrawController);
+    fileUploadController.$inject = ['$rootScope', '$scope', '$timeout', '$window'];
+    angular.module('myApp').controller('fileUploadController', fileUploadController);
 
 }());

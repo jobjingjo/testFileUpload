@@ -2,7 +2,19 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>This is a test file upload application</p>
+
+        <div class="form-group">
+            <form class="form" id="upload_form" enctype="multipart/form-data" method="post" action="upload" ng-controller="fileUploadController">
+                <div>
+                    <div><label for="transaction_file">Please select image file</label></div>
+                    <div><input file-binder type="file" name="transaction_file" id="transaction_file" accept=".xml,.csv" onchange="fileSelected();" /></div>
+                </div>
+                <div>
+                    <input type="button" value="Upload" onclick="startUploading()" />
+                </div>
+            </form>
+        </div>
+    </div>

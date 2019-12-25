@@ -12,8 +12,8 @@ namespace testFileUpload.Core.Services
         public FileService() { 
         
         }
-        public readonly string CSV = "text/csv";
-        public readonly string XML = "application/xml";
+        public readonly string CSV = "application/vnd.ms-excel";
+        public readonly string XML = "text/xml";
         public Task<ImportResult> Import(string contentType, FileStream stream)
         {
             ImportResult result = new ImportResult()
