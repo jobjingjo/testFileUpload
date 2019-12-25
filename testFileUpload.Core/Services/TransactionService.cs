@@ -12,8 +12,6 @@ namespace testFileUpload.Core.Services
     {
         private readonly ITransactionsRepository _transactionsRepository;
 
-        //private readonly AppDbContext _context;
-
         public TransactionService(
             ITransactionsRepository transactionsRepository
             ) {

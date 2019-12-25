@@ -6,7 +6,7 @@ using testFileUpload.Core.Types;
 namespace testFileUpload.Core.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class TransactionFileTests
     {
         [TestMethod]
         public void ToXml()
@@ -35,18 +35,6 @@ namespace testFileUpload.Core.Tests
                 Status = XmlStatus.Rejected
             });
             Assert.AreEqual("", file.ToXml());
-
-        }
-
-        [TestMethod]
-        public void LoadCSV()
-        {
-
-        }
-
-        [TestMethod]
-        public void LoadXML()
-        {
 
         }
     }

@@ -64,7 +64,6 @@ namespace testFileUpload.Controllers
 
             var transactions = await _transactionService.GetByDateRange(startDate,endDate);
 
-
             if (!transactions.Any())
             {
                 return NotFound();
@@ -76,12 +75,14 @@ namespace testFileUpload.Controllers
 
         [Route("transactions/byStatus")]
         [HttpGet]
-        public async Task<IActionResult> ByStatus(TransactionStatus status)
+        public async Task<IActionResult> ByStatus(string status)
         {
-            //validate status
+            if (!Enum.TryParse(typeof(TransactionStatus), status, out object resultStatus))
+            {
+                return BadRequest();
+            }
 
-            var transactions = await _transactionService.GetByStatus(status);
-
+            var transactions = await _transactionService.GetByStatus((TransactionStatus)resultStatus);
 
             if (!transactions.Any())
             {

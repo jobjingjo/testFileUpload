@@ -19,22 +19,21 @@ namespace testFileUpload.Core.Data
 
         public async Task<List<Transaction>> GetByCurrency(string currency)
         {
-            List<Transaction> transactions = new List<Transaction>();
-            transactions.Add(new Transaction()
-            {
-                Id = "inv-xxx-xx",
-                Amount = 1,
-                CurrencyCode = currency,
-                Status = TransactionStatus.Done,
-                TransactionDate = DateTime.Today
-            });
-            return await Task.FromResult(transactions);
+            //List<Transaction> transactions = new List<Transaction>();
+            //transactions.Add(new Transaction()
+            //{
+            //    Id = "inv-xxx-xx",
+            //    Amount = 1,
+            //    CurrencyCode = currency,
+            //    Status = TransactionStatus.Done,
+            //    TransactionDate = DateTime.Today
+            //});
+            //return await Task.FromResult(transactions);
 
-            //var transactions = await _context.Transactions.Where(t => t.CurrencyCode == currency)
-            //    .AsNoTracking()
-            //    .ToListAsync();
-            //return transactions;
-            //throw new NotImplementedException();
+            var transactions = await _context.Transactions.Where(t => t.CurrencyCode == currency)
+                .AsNoTracking()
+                .ToListAsync();
+            return transactions;
         }
 
         public async Task<List<Transaction>> GetByDateRangeAsync(DateTime startDate, DateTime endDate)
