@@ -35,7 +35,7 @@ namespace testFileUpload
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-
+            services.AddSingleton<ICurrencyService, CurrencyService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();

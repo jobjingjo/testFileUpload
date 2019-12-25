@@ -21,14 +21,9 @@ namespace testFileUpload.Core.Services
         private readonly int MAXLENGTH = 50;
         private readonly ICurrencyService _currencyService;
 
-        public XmlImporter()
-        {
-            _currencyService = new CurrencyService();
-        }
         public XmlImporter(ICurrencyService currencyService) {
             _currencyService = currencyService ?? throw new ArgumentNullException(nameof(currencyService));
         }
-
 
         public override ImportResult Validate(FileStream stream)
         {

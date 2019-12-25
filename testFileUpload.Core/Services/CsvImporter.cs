@@ -16,21 +16,17 @@ namespace testFileUpload.Core.Services
         private readonly int STATUS_INDEX = 4;
         private readonly string ID = "Id";
         private readonly string TRANSACTION_DATE = "TransactionDate";
-        private readonly string PAYMENT_DETAILS = "PaymentDetails";
         private readonly string AMOUNT = "Amount";
         private readonly string CURRENCY_CODE = "CurrencyCode";
         private readonly string STATUS = "Status";
         private readonly int MAXLENGTH = 50;
         private readonly ICurrencyService _currencyService;
 
-        public CsvImporter()
-        {
-            _currencyService = new CurrencyService();
-        }
         public CsvImporter(ICurrencyService currencyService)
         {
             _currencyService = currencyService ?? throw new ArgumentNullException(nameof(currencyService));
         }
+
         public override ImportResult Validate(FileStream stream)
         {
             var result = new ImportResult()

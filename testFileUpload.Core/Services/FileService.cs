@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 using testFileUpload.Core.Models;
 
 namespace testFileUpload.Core.Services
 {
     public class FileService : IFileService
     {
-        public FileService() { 
-        
+        private readonly ICurrencyService _currencyService;
+
+        public FileService(ICurrencyService currencyService)
+        {
+            _currencyService = currencyService ?? throw new ArgumentNullException(nameof(currencyService));
         }
-        public readonly string CSV = "application/vnd.ms-excel";
-        public readonly string XML = "text/xml";
+        public readonly string Csv = "application/vnd.ms-excel";
+        public readonly string Xml = "text/xml";
         public ImportResult Import(string contentType, FileStream stream)
         {
             ImportResult result = new ImportResult()
@@ -21,13 +21,13 @@ namespace testFileUpload.Core.Services
                 Status = ImportResultStatus.InvalidType
             };
             Importer importer = new NullImporter();
-            if (contentType == CSV)
+            if (contentType == Csv)
             {
-                importer = new CsvImporter();
+                importer = new CsvImporter(_currencyService);
             }
-            else if (contentType == XML)
+            else if (contentType == Xml)
             {
-                importer = new XmlImporter();
+                importer = new XmlImporter(_currencyService);
             }
 
             result = importer.Validate(stream);

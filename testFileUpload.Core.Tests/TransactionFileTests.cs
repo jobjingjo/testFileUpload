@@ -34,7 +34,7 @@ namespace testFileUpload.Core.Tests
                 },
                 Status = XmlStatus.Rejected
             });
-            Assert.AreEqual("", file.ToXml());
+            Assert.Inconclusive("Use this to create a test file");
 
         }
     }

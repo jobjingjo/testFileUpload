@@ -14,7 +14,7 @@ namespace testFileUpload.Core.Tests.Services
         [TestMethod]
         public void XmlImporterTests()
         {
-            var target = new XmlImporter();
+            var target = new XmlImporter(new CurrencyService());
             FileStream stream = File.Open("input.xml",FileMode.Open);
             var result = target.Validate(stream);
             Assert.AreEqual(ImportResultStatus.Ok, result.Status);
@@ -25,7 +25,7 @@ namespace testFileUpload.Core.Tests.Services
         [TestMethod]
         public void CsvImporterTests()
         {
-            var target = new CsvImporter();
+            var target = new CsvImporter(new CurrencyService());
             FileStream stream = File.Open("input.csv", FileMode.Open);
             var result = target.Validate(stream);
             Assert.AreEqual(ImportResultStatus.Ok, result.Status);
