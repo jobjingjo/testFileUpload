@@ -6,23 +6,18 @@ namespace testFileUpload.Core.Tests.Helpers
 {
     public static class MoqExtensions
     {
-        public static IServiceCollection AddMock<T>(
-            this IServiceCollection service) where T : class
+        public static IServiceCollection AddMock<T>(this IServiceCollection serviceCollection) where T : class
         {
-            var mock = new Mock<T>(MockBehavior.Strict);
-            service.AddSingleton(mock);
-            service.AddSingleton(mock.Object);
-            return service;
+            return serviceCollection.AddMock<T>(MockBehavior.Strict);
         }
 
-        public static IServiceCollection AddMock<T>(
-            this IServiceCollection service,
+        public static IServiceCollection AddMock<T>(this IServiceCollection serviceCollection,
             MockBehavior behavior) where T : class
         {
             var mock = new Mock<T>(behavior);
-            service.AddSingleton(mock);
-            service.AddSingleton(mock.Object);
-            return service;
+            serviceCollection.AddSingleton(mock);
+            serviceCollection.AddSingleton(mock.Object);
+            return serviceCollection;
         }
 
         public static Mock<T> GetMock<T>(this IServiceProvider provider) where T : class
