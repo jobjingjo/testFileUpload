@@ -2,7 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-(function (angular) {
+(function () {
     "use strict";
     const app = angular.module("myApp", []);
     app.run(function($rootScope) {
@@ -10,9 +10,9 @@
         $rootScope.errorMessage = "mock";
         $rootScope.error = false;
     });
-}(angular));
+}());
 
-(function (angular) {
+(function () {
     "use strict";
     angular.module("myApp").directive("fileBinder",
         function() {
@@ -26,9 +26,9 @@
                     });
             };
         });
-}(angular));
+}());
 
-(function (angular) {
+(function () {
     "use strict";
 
     function fileUploadController($rootScope, $scope, $timeout, $window, $q, $http) {
@@ -73,4 +73,4 @@
     fileUploadController.$inject = ["$rootScope", "$scope", "$timeout", "$window", "$q", "$http"];
     angular.module("myApp").controller("fileUploadController", fileUploadController);
 
-}(angular));
+}());
