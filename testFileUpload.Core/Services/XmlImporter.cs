@@ -201,9 +201,9 @@ namespace testFileUpload.Core.Services
                     return TransactionStatus.Rejected;
                 case XmlStatus.Done:
                     return TransactionStatus.Done;
+                default:
+                    return TransactionStatus.Unknow;
             }
-
-            return TransactionStatus.Unknow;
         }
     }
 }

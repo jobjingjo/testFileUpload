@@ -4,9 +4,9 @@ namespace testFileUpload.Core.Models
 {
     public class ImportResult
     {
-        public IList<ValidationError> _errors;
+        private IList<ValidationError> _errors;
 
-        public IList<Transaction> _transactions;
+        private IList<Transaction> _transactions;
         public ImportResultStatus Status { get; set; }
 
         public IList<ValidationError> Errors

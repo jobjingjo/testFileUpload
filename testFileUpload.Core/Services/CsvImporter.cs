@@ -135,9 +135,9 @@ namespace testFileUpload.Core.Services
                     return TransactionStatus.Rejected;
                 case CsvStatus.Finished:
                     return TransactionStatus.Done;
+                default:
+                    return TransactionStatus.Unknow;
             }
-
-            return TransactionStatus.Unknow;
         }
 
         private DateTime ValidateDate(ImportResult result, int elementIndex, string[] args)
