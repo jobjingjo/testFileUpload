@@ -42,53 +42,50 @@ namespace testFileUpload.Controllers
         [HttpPost]
         public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
         {
-            var size = files.Sum(f => f.Length);
+            var formFile = files.FirstOrDefault();
 
-            foreach (var formFile in files)
+            if (formFile == null || formFile.Length <= 0)
             {
-                if (formFile.Length > 0)
-                {
-                    var filePath = Path.GetTempFileName();
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        formFile.CopyTo(stream);
-                        if (formFile.Length > _fileSizeLimit)
-                        {
-                            return BadRequest("File is too big");
-                        }
-
-                        stream.Seek(0, SeekOrigin.Begin);
-                        var importResult = _fileService.Import(formFile.ContentType, stream);
-                        switch (importResult.Status)
-                        {
-                            case ImportResultStatus.InvalidType:
-                                return BadRequest("Unknown format");
-                            case ImportResultStatus.InvalidValidation:
-                            {
-                                var jsonMessage = JsonConvert.SerializeObject(importResult.Errors);
-                                _logger.LogInformation(jsonMessage);
-                                return BadRequest(jsonMessage);
-                            }
-
-                            case ImportResultStatus.SystemError:
-                                return Problem();
-                            case ImportResultStatus.NoData:
-                                return BadRequest();
-                        }
-
-                        var success = await _transactionService.SaveTransaction(importResult.Transactions);
-                        if (!success)
-                        {
-                            return Problem();
-                        }
-
-                        return Ok();
-                    }
-                }
+                return BadRequest();
             }
 
-            return BadRequest();
+            var filePath = Path.GetTempFileName();
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                formFile.CopyTo(stream);
+                if (formFile.Length > _fileSizeLimit)
+                {
+                    return BadRequest("File is too big");
+                }
+
+                stream.Seek(0, SeekOrigin.Begin);
+                var importResult = _fileService.Import(formFile.ContentType, stream);
+                switch (importResult.Status)
+                {
+                    case ImportResultStatus.InvalidType:
+                        return BadRequest("Unknown format");
+                    case ImportResultStatus.InvalidValidation:
+                    {
+                        var jsonMessage = JsonConvert.SerializeObject(importResult.Errors);
+                        _logger.LogInformation(jsonMessage);
+                        return BadRequest(jsonMessage);
+                    }
+
+                    case ImportResultStatus.SystemError:
+                        return Problem();
+                    case ImportResultStatus.NoData:
+                        return BadRequest();
+                }
+
+                var success = await _transactionService.SaveTransaction(importResult.Transactions);
+                if (!success)
+                {
+                    return Problem();
+                }
+
+                return Ok();
+            }
         }
     }
 }

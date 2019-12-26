@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -96,7 +97,7 @@ namespace testFileUpload.Core.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Debug.WriteLine(ex);
                 result.Status = ImportResultStatus.SystemError;
             }
 

@@ -7,8 +7,8 @@ namespace testFileUpload.Core.Services
     public class FileService : IFileService
     {
         private readonly ICurrencyService _currencyService;
-        public readonly string Csv = "application/vnd.ms-excel";
-        public readonly string Xml = "text/xml";
+        private readonly string _csv = "application/vnd.ms-excel";
+        private readonly string _xml = "text/xml";
 
         public FileService(ICurrencyService currencyService)
         {
@@ -17,22 +17,17 @@ namespace testFileUpload.Core.Services
 
         public ImportResult Import(string contentType, FileStream stream)
         {
-            var result = new ImportResult
-            {
-                Status = ImportResultStatus.InvalidType
-            };
             Importer importer = new NullImporter();
-            if (contentType == Csv)
+            if (contentType == _csv)
             {
                 importer = new CsvImporter(_currencyService);
             }
-            else if (contentType == Xml)
+            else if (contentType == _xml)
             {
                 importer = new XmlImporter(_currencyService);
             }
 
-            result = importer.Validate(stream);
-            //add transaction to repo here
+            var result = importer.Validate(stream);
 
             return result;
         }
