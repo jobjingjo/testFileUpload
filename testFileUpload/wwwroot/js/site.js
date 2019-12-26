@@ -34,8 +34,6 @@
     function fileUploadController($rootScope, $scope, $timeout, $window, $q, $http) {
         const vm = this;
 
-        vm.startUploading = startUploading;
-
         function startUploading() {
             if ($scope.transaction_file && $scope.transaction_file.length > 0)
             {
@@ -70,6 +68,8 @@
 
             return deferred.promise;
         }
+
+        vm.startUploading = startUploading;
     }
 
     fileUploadController.$inject = ["$rootScope", "$scope", "$timeout", "$window", "$q", "$http"];
