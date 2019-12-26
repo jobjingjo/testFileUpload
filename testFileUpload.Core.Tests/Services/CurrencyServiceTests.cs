@@ -1,8 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using testFileUpload.Core.Services;
 
 namespace testFileUpload.Core.Tests.Services
@@ -13,25 +10,27 @@ namespace testFileUpload.Core.Tests.Services
         private CurrencyService _target;
 
         [TestInitialize]
-        public void Setup() {
+        public void Setup()
+        {
             _target = new CurrencyService();
         }
-        
+
         [TestMethod]
         public void Exists_WhenInISO4217_ShouldReturnTrue()
         {
             var lines = File.ReadAllLines("ISO_4217.txt");
-            foreach (var line in lines) {
+            foreach (var line in lines)
+            {
                 var result = _target.Exists(line);
-                Assert.IsTrue(result,$"{line} not found");
-            }           
+                Assert.IsTrue(result, $"{line} not found");
+            }
         }
 
         [TestMethod]
         public void Exists_WhenNotInTable_ShouldReturnTrue()
         {
-                var result = _target.Exists("JOB");
-                Assert.IsFalse(result);
+            var result = _target.Exists("JOB");
+            Assert.IsFalse(result);
         }
     }
 }

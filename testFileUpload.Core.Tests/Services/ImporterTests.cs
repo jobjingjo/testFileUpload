@@ -1,8 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using testFileUpload.Core.Models;
 using testFileUpload.Core.Services;
 
@@ -15,7 +12,7 @@ namespace testFileUpload.Core.Tests.Services
         public void XmlImporterTests()
         {
             var target = new XmlImporter(new CurrencyService());
-            FileStream stream = File.Open("input.xml",FileMode.Open);
+            var stream = File.Open("input.xml", FileMode.Open);
             var result = target.Validate(stream);
             Assert.AreEqual(ImportResultStatus.Ok, result.Status);
             Assert.AreEqual(0, result.Errors.Count);
@@ -26,7 +23,7 @@ namespace testFileUpload.Core.Tests.Services
         public void CsvImporterTests()
         {
             var target = new CsvImporter(new CurrencyService());
-            FileStream stream = File.Open("input.csv", FileMode.Open);
+            var stream = File.Open("input.csv", FileMode.Open);
             var result = target.Validate(stream);
             Assert.AreEqual(ImportResultStatus.Ok, result.Status);
             Assert.AreEqual(0, result.Errors.Count);
