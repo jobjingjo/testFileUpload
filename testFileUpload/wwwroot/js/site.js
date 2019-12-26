@@ -38,11 +38,13 @@
 
         function startUploading() {
             if ($scope.transaction_file && $scope.transaction_file.length > 0)
+            {
                 uploadFile($scope.transaction_file[0]).then(() => {
                     console.log("OK");
-                }).catch(err => {
+                }).catch((err) => {
                     console.log(err);
                 });
+            }
         }
 
 
@@ -55,7 +57,7 @@
                         fd,
                         {
                             transformRequest: angular.identity,
-                            headers: { 'Content-Type': undefined }
+                            headers: { "Content-Type": undefined }
                         })
                     .then(function(response) {
                         deferred.resolve(true);
