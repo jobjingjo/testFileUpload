@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using testFileUpload.Core.Models;
 using testFileUpload.Core.Services;
 
@@ -35,12 +36,6 @@ namespace testFileUpload.Controllers
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
             _transactionService = transactionService ?? throw new ArgumentNullException(nameof(transactionService));
             _fileSizeLimit = config.GetValue<long>("FileSizeLimit");
-
-            //// To save physical files to a path provided by configuration:
-            //_targetFilePath = config.GetValue<string>("StoredFilesPath");
-
-            // To save physical files to the temporary files folder, use:
-            //_targetFilePath = Path.GetTempPath();
         }
 
         [Route("upload")]
@@ -65,24 +60,21 @@ namespace testFileUpload.Controllers
 
                         stream.Seek(0, SeekOrigin.Begin);
                         var importResult = _fileService.Import(formFile.ContentType, stream);
-                        if (importResult.Status == ImportResultStatus.InvalidType)
+                        switch (importResult.Status)
                         {
-                            return BadRequest("Unknown format");
-                        }
+                            case ImportResultStatus.InvalidType:
+                                return BadRequest("Unknown format");
+                            case ImportResultStatus.InvalidValidation:
+                            {
+                                var jsonMessage = JsonConvert.SerializeObject(importResult.Errors);
+                                _logger.LogInformation(jsonMessage);
+                                return BadRequest(jsonMessage);
+                            }
 
-                        if (importResult.Status == ImportResultStatus.InvalidValidation)
-                        {
-                            return BadRequest();
-                        }
-
-                        if (importResult.Status == ImportResultStatus.SystemError)
-                        {
-                            return Problem();
-                        }
-
-                        if (importResult.Status == ImportResultStatus.NoData)
-                        {
-                            return BadRequest();
+                            case ImportResultStatus.SystemError:
+                                return Problem();
+                            case ImportResultStatus.NoData:
+                                return BadRequest();
                         }
 
                         var success = await _transactionService.SaveTransaction(importResult.Transactions);

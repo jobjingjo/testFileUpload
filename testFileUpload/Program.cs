@@ -5,7 +5,7 @@ using testFileUpload.Core.Data;
 
 namespace testFileUpload
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

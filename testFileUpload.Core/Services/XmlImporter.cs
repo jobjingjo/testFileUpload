@@ -58,8 +58,8 @@ namespace testFileUpload.Core.Services
 
                             var dAmount = ValidateAmount(result, elementIndex, detail);
 
-                            var detailCurrencyCode = ValidateCurrenyCode(result, elementIndex, detail);
-                            var tsTransactionStatus = ValidateTransactionStauts(result, elementIndex, row);
+                            var detailCurrencyCode = ValidateCurrencyCode(result, elementIndex, detail);
+                            var tsTransactionStatus = ValidateTransactionStatus(result, elementIndex, row);
 
                             if (!result.Errors.Any())
                             {
@@ -103,7 +103,7 @@ namespace testFileUpload.Core.Services
             return result;
         }
 
-        private string ValidateCurrenyCode(ImportResult result, int elementIndex, XElement detail)
+        private string ValidateCurrencyCode(ImportResult result, int elementIndex, XElement detail)
         {
             var detailCurrencyCode = (string) detail.Element(CURRENCY_CODE);
             if (string.IsNullOrEmpty(detailCurrencyCode))
@@ -171,8 +171,7 @@ namespace testFileUpload.Core.Services
             {
                 result.AddError(elementIndex, $"{ID} not found");
             }
-
-            if (id.Length > MAXLENGTH)
+            else if (id.Length > MAXLENGTH)
             {
                 result.AddError(elementIndex, $"{ID} max length is {MAXLENGTH}");
             }
@@ -180,7 +179,7 @@ namespace testFileUpload.Core.Services
             return id;
         }
 
-        private TransactionStatus ValidateTransactionStauts(ImportResult result, int elementIndex, XElement row)
+        private TransactionStatus ValidateTransactionStatus(ImportResult result, int elementIndex, XElement row)
         {
             var status = (string) row.Element(STATUS);
             if (string.IsNullOrEmpty(status))
