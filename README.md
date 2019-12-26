@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/gkg0hc7dhoqskbqv?svg=true)](https://ci.appveyor.com/project/jobjingjo/testfileupload) [![codecov](https://codecov.io/gh/jobjingjo/testFileUpload/branch/master/graph/badge.svg)](https://codecov.io/gh/jobjingjo/testFileUpload)
+[![Build status](https://ci.appveyor.com/api/projects/status/gkg0hc7dhoqskbqv?svg=true)](https://ci.appveyor.com/project/jobjingjo/testfileupload) [![codecov](https://codecov.io/gh/jobjingjo/testFileUpload/branch/master/graph/badge.svg)](https://codecov.io/gh/jobjingjo/testFileUpload) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ff5128b1b5f344099d2203f9e0024528)](https://www.codacy.com/manual/jobjingjo/testFileUpload?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jobjingjo/testFileUpload&amp;utm_campaign=Badge_Grade)
 
 # testFileUpload
 a simple ASP.NET File Upload 
