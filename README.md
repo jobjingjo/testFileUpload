@@ -3,11 +3,10 @@
 # testFileUpload
 a simple ASP.NET File Upload 
 
-
 TODO:
  1. Restore nuget
  2. Restore client-side library
  3. Click view on testFileUpload
- 4. Open browser at https://localhost:44371/
+ 4. Open browser at [https://localhost:44371/](https://localhost:44371/)
  5. Test file upload
  6. See api in swagger
