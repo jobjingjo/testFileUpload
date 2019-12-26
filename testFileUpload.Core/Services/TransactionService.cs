@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using testFileUpload.Core.Data;
 using testFileUpload.Core.Models;
@@ -14,8 +12,10 @@ namespace testFileUpload.Core.Services
 
         public TransactionService(
             ITransactionsRepository transactionsRepository
-            ) {
-            _transactionsRepository = transactionsRepository ?? throw new ArgumentNullException(nameof(transactionsRepository));
+        )
+        {
+            _transactionsRepository =
+                transactionsRepository ?? throw new ArgumentNullException(nameof(transactionsRepository));
         }
 
         public async Task<List<Transaction>> GetByCurrency(string currency)
@@ -24,7 +24,7 @@ namespace testFileUpload.Core.Services
         }
 
         public async Task<List<Transaction>> GetByDateRange(DateTime startDate, DateTime endDate)
-        {    
+        {
             return await _transactionsRepository.GetByDateRangeAsync(startDate, endDate);
         }
 

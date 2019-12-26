@@ -7,16 +7,17 @@ namespace testFileUpload.Core.Services
     public class FileService : IFileService
     {
         private readonly ICurrencyService _currencyService;
+        public readonly string Csv = "application/vnd.ms-excel";
+        public readonly string Xml = "text/xml";
 
         public FileService(ICurrencyService currencyService)
         {
             _currencyService = currencyService ?? throw new ArgumentNullException(nameof(currencyService));
         }
-        public readonly string Csv = "application/vnd.ms-excel";
-        public readonly string Xml = "text/xml";
+
         public ImportResult Import(string contentType, FileStream stream)
         {
-            ImportResult result = new ImportResult()
+            var result = new ImportResult
             {
                 Status = ImportResultStatus.InvalidType
             };

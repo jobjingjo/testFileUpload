@@ -7,20 +7,20 @@ using testFileUpload.Core.Types;
 
 namespace testFileUpload.Core.Services
 {
-    public class CsvImporter:Importer
+    public class CsvImporter : Importer
     {
-        private readonly int ID_INDEX = 0;
+        private readonly ICurrencyService _currencyService;
+        private readonly string AMOUNT = "Amount";
         private readonly int AMOUNT_INDEX = 1;
+        private readonly string CURRENCY_CODE = "CurrencyCode";
         private readonly int CURRENCY_INDEX = 2;
         private readonly int DATE_INDEX = 3;
-        private readonly int STATUS_INDEX = 4;
         private readonly string ID = "Id";
-        private readonly string TRANSACTION_DATE = "TransactionDate";
-        private readonly string AMOUNT = "Amount";
-        private readonly string CURRENCY_CODE = "CurrencyCode";
-        private readonly string STATUS = "Status";
+        private readonly int ID_INDEX = 0;
         private readonly int MAXLENGTH = 50;
-        private readonly ICurrencyService _currencyService;
+        private readonly string STATUS = "Status";
+        private readonly int STATUS_INDEX = 4;
+        private readonly string TRANSACTION_DATE = "TransactionDate";
 
         public CsvImporter(ICurrencyService currencyService)
         {
@@ -29,30 +29,33 @@ namespace testFileUpload.Core.Services
 
         public override ImportResult Validate(FileStream stream)
         {
-            var result = new ImportResult()
+            var result = new ImportResult
             {
                 Status = ImportResultStatus.InvalidType
             };
             try
             {
-                using (StreamReader reader = new StreamReader(stream)) {                    
-                    string text = reader.ReadToEnd();
-                    var lines = text.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-                    int elementIndex = 0;
+                using (var reader = new StreamReader(stream))
+                {
+                    var text = reader.ReadToEnd();
+                    var lines = text.Split(new[] {"\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    var elementIndex = 0;
                     if (lines.Length == 0)
                     {
                         result.Status = ImportResultStatus.NoData;
                         return result;
                     }
 
-                    foreach (var line in lines) {
+                    foreach (var line in lines)
+                    {
                         //process line
                         if (!line.Contains("\","))
                         {
                             result.AddError(elementIndex, "incorrect format");
                         }
-                        else {
-                            var args = line.Split(new[] { "\"," }, StringSplitOptions.RemoveEmptyEntries);
+                        else
+                        {
+                            var args = line.Split(new[] {"\","}, StringSplitOptions.RemoveEmptyEntries);
 
                             if (args.Length < 5)
                             {
@@ -60,23 +63,23 @@ namespace testFileUpload.Core.Services
                             }
                             else
                             {
-                                for (int i = 0; i < args.Length; i++)
+                                for (var i = 0; i < args.Length; i++)
                                 {
                                     args[i] = args[i].Replace("\"", "").Trim();
                                 }
 
-                                string id = ValidateId(result, elementIndex, args);
+                                var id = ValidateId(result, elementIndex, args);
 
-                                decimal dAmount = ValidateAmount(result, elementIndex, args);
+                                var dAmount = ValidateAmount(result, elementIndex, args);
 
-                                string detailCurrencyCode = ValidateCurrency(result, elementIndex, args);
+                                var detailCurrencyCode = ValidateCurrency(result, elementIndex, args);
 
-                                DateTime dtTransactionDate = ValidateDate(result, elementIndex, args);
+                                var dtTransactionDate = ValidateDate(result, elementIndex, args);
 
-                                TransactionStatus tsTransactionStatus = ValidateStatus(result, elementIndex, args);
+                                var tsTransactionStatus = ValidateStatus(result, elementIndex, args);
                                 if (!result.Errors.Any())
                                 {
-                                    var transaction = new Transaction()
+                                    var transaction = new Transaction
                                     {
                                         Id = id,
                                         Amount = dAmount,
@@ -86,12 +89,12 @@ namespace testFileUpload.Core.Services
                                     };
                                     result.Transactions.Add(transaction);
                                 }
-
                             }
                         }
-    
+
                         elementIndex++;
                     }
+
                     if (result.Errors.Any())
                     {
                         result.Status = ImportResultStatus.InvalidValidation;
@@ -103,7 +106,8 @@ namespace testFileUpload.Core.Services
                     }
                 }
             }
-            catch {
+            catch
+            {
                 result.Status = ImportResultStatus.SystemError;
             }
 
@@ -117,7 +121,8 @@ namespace testFileUpload.Core.Services
             {
                 result.AddError(elementIndex, $"{STATUS} not found");
             }
-            if (!Enum.TryParse(typeof(CsvStatus), status, out object tsTransactionStatus))
+
+            if (!Enum.TryParse(typeof(CsvStatus), status, out var tsTransactionStatus))
             {
                 result.AddError(elementIndex, $"{CURRENCY_CODE} not found");
             }
@@ -131,6 +136,7 @@ namespace testFileUpload.Core.Services
                 case CsvStatus.Finished:
                     return TransactionStatus.Done;
             }
+
             return TransactionStatus.Unknow;
         }
 
@@ -141,7 +147,9 @@ namespace testFileUpload.Core.Services
             {
                 result.AddError(elementIndex, $"{TRANSACTION_DATE} not found");
             }
-            if (!DateTime.TryParseExact(transactionDate, "dd/MM/yyyy hh:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtTransactionDate))
+
+            if (!DateTime.TryParseExact(transactionDate, "dd/MM/yyyy hh:mm:ss", CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out var dtTransactionDate))
             {
                 result.AddError(elementIndex, $"{TRANSACTION_DATE} incorrect format");
             }
@@ -156,6 +164,7 @@ namespace testFileUpload.Core.Services
             {
                 result.AddError(elementIndex, $"{CURRENCY_CODE} not found");
             }
+
             //validate
             if (!_currencyService.Exists(detailCurrencyCode))
             {
@@ -172,7 +181,8 @@ namespace testFileUpload.Core.Services
             {
                 result.AddError(elementIndex, $"{AMOUNT} not found");
             }
-            if (!Decimal.TryParse(detailAmount, out decimal dAmount))
+
+            if (!decimal.TryParse(detailAmount, out var dAmount))
             {
                 result.AddError(elementIndex, $"{AMOUNT} incorrect format");
             }
@@ -187,6 +197,7 @@ namespace testFileUpload.Core.Services
             {
                 result.AddError(elementIndex, $"{ID} not found");
             }
+
             if (ID.Length > MAXLENGTH)
             {
                 result.AddError(elementIndex, $"{ID} max length is {MAXLENGTH}");

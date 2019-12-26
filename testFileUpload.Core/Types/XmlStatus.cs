@@ -2,9 +2,8 @@
 {
     public enum XmlStatus
     {
-            Approved,
-            Rejected,
-            Done,
-        }
-
+        Approved,
+        Rejected,
+        Done
+    }
 }

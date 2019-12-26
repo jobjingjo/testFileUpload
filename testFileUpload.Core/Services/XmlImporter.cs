@@ -1,33 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Schema;
 using testFileUpload.Core.Models;
 using testFileUpload.Core.Types;
 
 namespace testFileUpload.Core.Services
 {
-    public class XmlImporter :Importer
+    public class XmlImporter : Importer
     {
-        private readonly string ID = "Id";
-        private readonly string TRANSACTION_DATE = "TransactionDate";
-        private readonly string PAYMENT_DETAILS = "PaymentDetails";
+        private readonly ICurrencyService _currencyService;
         private readonly string AMOUNT = "Amount";
         private readonly string CURRENCY_CODE = "CurrencyCode";
-        private readonly string STATUS = "Status";
+        private readonly string ID = "Id";
         private readonly int MAXLENGTH = 50;
-        private readonly ICurrencyService _currencyService;
+        private readonly string PAYMENT_DETAILS = "PaymentDetails";
+        private readonly string STATUS = "Status";
+        private readonly string TRANSACTION_DATE = "TransactionDate";
 
-        public XmlImporter(ICurrencyService currencyService) {
+        public XmlImporter(ICurrencyService currencyService)
+        {
             _currencyService = currencyService ?? throw new ArgumentNullException(nameof(currencyService));
         }
 
         public override ImportResult Validate(FileStream stream)
         {
-            var result= new ImportResult()
+            var result = new ImportResult
             {
                 Status = ImportResultStatus.InvalidType
             };
@@ -38,31 +39,31 @@ namespace testFileUpload.Core.Services
                 {
                     DtdProcessing = DtdProcessing.Ignore,
                     IgnoreProcessingInstructions = true,
-                    ValidationFlags = System.Xml.Schema.XmlSchemaValidationFlags.ReportValidationWarnings
+                    ValidationFlags = XmlSchemaValidationFlags.ReportValidationWarnings
                 };
 
-                using (XmlReader reader = XmlReader.Create(stream, settings))
+                using (var reader = XmlReader.Create(stream, settings))
                 {
                     reader.Read();
-                    if (reader.Name.Equals("Transactions") && (reader.NodeType == XmlNodeType.Element))
+                    if (reader.Name.Equals("Transactions") && reader.NodeType == XmlNodeType.Element)
                     {
-                        XElement eventData = (XElement)XNode.ReadFrom(reader);
-                        int elementIndex = 0;
-                        foreach (XElement row in eventData.Elements("Transaction"))
+                        var eventData = (XElement) XNode.ReadFrom(reader);
+                        var elementIndex = 0;
+                        foreach (var row in eventData.Elements("Transaction"))
                         {
-                            string id = ValidateId(result, elementIndex, row);
+                            var id = ValidateId(result, elementIndex, row);
 
-                            DateTime dtTransactionDate = ValidateTransactionDate(result, elementIndex, row);
-                            XElement detail = ValidatePaymentDetails(result, elementIndex, row);
+                            var dtTransactionDate = ValidateTransactionDate(result, elementIndex, row);
+                            var detail = ValidatePaymentDetails(result, elementIndex, row);
 
-                            decimal dAmount = ValidateAmount(result, elementIndex, detail);
+                            var dAmount = ValidateAmount(result, elementIndex, detail);
 
-                            string detailCurrencyCode = ValidateCurrenyCode(result, elementIndex, detail);
-                            TransactionStatus tsTransactionStatus = ValidateTransactionStauts(result, elementIndex, row);
+                            var detailCurrencyCode = ValidateCurrenyCode(result, elementIndex, detail);
+                            var tsTransactionStatus = ValidateTransactionStauts(result, elementIndex, row);
 
                             if (!result.Errors.Any())
                             {
-                                var transaction = new Transaction()
+                                var transaction = new Transaction
                                 {
                                     Id = id,
                                     Amount = dAmount,
@@ -72,25 +73,29 @@ namespace testFileUpload.Core.Services
                                 };
                                 result.Transactions.Add(transaction);
                             }
+
                             elementIndex++;
                         }
+
                         if (result.Errors.Any())
                         {
                             result.Status = ImportResultStatus.InvalidValidation;
                             result.Transactions.Clear();
                         }
-                        else {
+                        else
+                        {
                             result.Status = ImportResultStatus.Ok;
                         }
                     }
-                    else {
+                    else
+                    {
                         result.AddError(new ValidationError("no root element"));
                         result.Status = ImportResultStatus.InvalidValidation;
                     }
                 }
-             
             }
-            catch(Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex);
                 result.Status = ImportResultStatus.SystemError;
             }
@@ -100,11 +105,12 @@ namespace testFileUpload.Core.Services
 
         private string ValidateCurrenyCode(ImportResult result, int elementIndex, XElement detail)
         {
-            var detailCurrencyCode = (string)detail.Element(CURRENCY_CODE);
+            var detailCurrencyCode = (string) detail.Element(CURRENCY_CODE);
             if (string.IsNullOrEmpty(detailCurrencyCode))
             {
                 result.AddError(elementIndex, $"{CURRENCY_CODE} not found");
             }
+
             //validate
             if (!_currencyService.Exists(detailCurrencyCode))
             {
@@ -116,17 +122,20 @@ namespace testFileUpload.Core.Services
 
         private decimal ValidateAmount(ImportResult result, int elementIndex, XElement row)
         {
-            var detailAmount = (string)row.Element(AMOUNT);
+            var detailAmount = (string) row.Element(AMOUNT);
             if (string.IsNullOrEmpty(detailAmount))
             {
                 result.AddError(elementIndex, $"{AMOUNT} not found");
             }
-            if (!Decimal.TryParse(detailAmount, out decimal dDetailAmount))
+
+            if (!decimal.TryParse(detailAmount, out var dDetailAmount))
             {
                 result.AddError(elementIndex, $"{AMOUNT} incorrect format");
             }
+
             return dDetailAmount;
         }
+
         private XElement ValidatePaymentDetails(ImportResult result, int elementIndex, XElement row)
         {
             var detail = row.Element(PAYMENT_DETAILS);
@@ -140,12 +149,14 @@ namespace testFileUpload.Core.Services
 
         private DateTime ValidateTransactionDate(ImportResult result, int elementIndex, XElement row)
         {
-            var transactionDate = (string)row.Element(TRANSACTION_DATE);
+            var transactionDate = (string) row.Element(TRANSACTION_DATE);
             if (string.IsNullOrEmpty(transactionDate))
             {
                 result.AddError(elementIndex, $"{TRANSACTION_DATE} not found");
             }
-            if (!DateTime.TryParseExact(transactionDate, "yyyy-MM-dd'T'HH:mm:ss", null, DateTimeStyles.None, out DateTime dtTransactionDate))
+
+            if (!DateTime.TryParseExact(transactionDate, "yyyy-MM-dd'T'HH:mm:ss", null, DateTimeStyles.None,
+                out var dtTransactionDate))
             {
                 result.AddError(elementIndex, $"{TRANSACTION_DATE} incorrect format");
             }
@@ -155,11 +166,12 @@ namespace testFileUpload.Core.Services
 
         private string ValidateId(ImportResult result, int elementIndex, XElement row)
         {
-            var id = (string)row.Attribute(ID);
+            var id = (string) row.Attribute(ID);
             if (string.IsNullOrEmpty(id))
             {
                 result.AddError(elementIndex, $"{ID} not found");
             }
+
             if (id.Length > MAXLENGTH)
             {
                 result.AddError(elementIndex, $"{ID} max length is {MAXLENGTH}");
@@ -170,12 +182,13 @@ namespace testFileUpload.Core.Services
 
         private TransactionStatus ValidateTransactionStauts(ImportResult result, int elementIndex, XElement row)
         {
-            var status = (string)row.Element(STATUS);
+            var status = (string) row.Element(STATUS);
             if (string.IsNullOrEmpty(status))
             {
                 result.AddError(elementIndex, $"{STATUS} not found");
             }
-            if (!Enum.TryParse(typeof(XmlStatus), status, out object tsTransactionStatus))
+
+            if (!Enum.TryParse(typeof(XmlStatus), status, out var tsTransactionStatus))
             {
                 result.AddError(elementIndex, $"{STATUS} not found");
             }
@@ -189,6 +202,7 @@ namespace testFileUpload.Core.Services
                 case XmlStatus.Done:
                     return TransactionStatus.Done;
             }
+
             return TransactionStatus.Unknow;
         }
     }

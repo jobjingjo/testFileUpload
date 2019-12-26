@@ -6,9 +6,6 @@ namespace testFileUpload.Core.Services
 {
     public abstract class Importer
     {
-        public Importer() { 
-        
-        }
         public virtual ImportResult Validate(FileStream stream)
         {
             throw new NotImplementedException();
@@ -19,7 +16,7 @@ namespace testFileUpload.Core.Services
     {
         public override ImportResult Validate(FileStream stream)
         {
-            return new ImportResult()
+            return new ImportResult
             {
                 Status = ImportResultStatus.InvalidType
             };

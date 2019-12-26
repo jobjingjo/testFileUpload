@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using testFileUpload.Core.Models;
 
 namespace testFileUpload.Core.Data
@@ -13,12 +10,12 @@ namespace testFileUpload.Core.Data
         {
         }
 
-        public DbSet<Models.Transaction> Transactions { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Transaction>()
-                .HasKey(x=>x.Id);
+                .HasKey(x => x.Id);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +9,12 @@ namespace testFileUpload.Core.Data
         where TContext : DbContext
     {
         private readonly TContext context;
+
         public EfCoreRepository(TContext context)
         {
             this.context = context;
         }
+
         public async Task<TEntity> Add(TEntity entity)
         {
             context.Set<TEntity>().Add(entity);
@@ -52,6 +52,5 @@ namespace testFileUpload.Core.Data
             await context.SaveChangesAsync();
             return entity;
         }
-
     }
 }
