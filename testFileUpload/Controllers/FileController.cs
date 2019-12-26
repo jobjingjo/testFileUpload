@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using testFileUpload.Core.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using testFileUpload.Core.Models;
 using testFileUpload.Core.Services;
 
@@ -16,16 +15,15 @@ namespace testFileUpload.Controllers
     [ApiController]
     public class FileController : ControllerBase
     {
-        private readonly ILogger<FileController> _logger;
         private readonly IFileService _fileService;
-        private readonly ITransactionService _transactionService;
         private readonly long _fileSizeLimit;
-
+        private readonly ILogger<FileController> _logger;
+        private readonly ITransactionService _transactionService;
 
         public FileController(
-            ILogger<FileController> logger, 
-            IConfiguration config, 
-            IFileService fileService, 
+            ILogger<FileController> logger,
+            IConfiguration config,
+            IFileService fileService,
             ITransactionService transactionService)
         {
             if (config is null)
@@ -44,11 +42,12 @@ namespace testFileUpload.Controllers
             // To save physical files to the temporary files folder, use:
             //_targetFilePath = Path.GetTempPath();
         }
+
         [Route("upload")]
         [HttpPost]
         public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
         {
-            long size = files.Sum(f => f.Length);
+            var size = files.Sum(f => f.Length);
 
             foreach (var formFile in files)
             {
@@ -56,7 +55,7 @@ namespace testFileUpload.Controllers
                 {
                     var filePath = Path.GetTempFileName();
 
-                    using (var stream = new FileStream(filePath,FileMode.Create))
+                    using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         formFile.CopyTo(stream);
                         if (formFile.Length > _fileSizeLimit)
@@ -70,26 +69,33 @@ namespace testFileUpload.Controllers
                         {
                             return BadRequest("Unknown format");
                         }
-                        else if (importResult.Status == ImportResultStatus.InvalidValidation)
+
+                        if (importResult.Status == ImportResultStatus.InvalidValidation)
                         {
                             return BadRequest();
                         }
-                        else if (importResult.Status == ImportResultStatus.SystemError)
+
+                        if (importResult.Status == ImportResultStatus.SystemError)
                         {
                             return Problem();
                         }
-                        else if (importResult.Status == ImportResultStatus.NoData)
+
+                        if (importResult.Status == ImportResultStatus.NoData)
                         {
                             return BadRequest();
                         }
 
                         var success = await _transactionService.SaveTransaction(importResult.Transactions);
-                        if (!success) return Problem();
+                        if (!success)
+                        {
+                            return Problem();
+                        }
+
                         return Ok();
                     }
-
                 }
             }
+
             return BadRequest();
         }
     }

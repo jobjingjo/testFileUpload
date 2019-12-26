@@ -15,11 +15,14 @@ namespace testFileUpload
                 var context = scope.ServiceProvider.GetService<AppDbContext>();
                 context.Database.EnsureCreated();
             }
+
             host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
+        }
     }
 }

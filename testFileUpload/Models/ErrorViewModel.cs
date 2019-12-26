@@ -1,5 +1,3 @@
-using System;
-
 namespace testFileUpload.Models
 {
     public class ErrorViewModel

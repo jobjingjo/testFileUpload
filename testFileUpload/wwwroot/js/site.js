@@ -2,45 +2,47 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-(function () {
+(function() {
     "use strict";
-    var app = angular.module('myApp', []);
-    app.run(function ($rootScope) {
+    const app = angular.module("myApp", []);
+    app.run(function($rootScope) {
         $rootScope.balance = "mock";
         $rootScope.errorMessage = "mock";
         $rootScope.error = false;
     });
 }());
 
-(function () {
+(function() {
     "use strict";
-    angular.module('myApp').directive('fileBinder', function () {
-        return function (scope, elm, attrs) {
-            elm.bind('change', function (evt) {
-                scope.$apply(function () {
-                    scope[attrs.name] = evt.target.files;
-                    console.log(scope[attrs.name]);
-                });
-            });
-        };
-    });
+    angular.module("myApp").directive("fileBinder",
+        function() {
+            return function(scope, elm, attrs) {
+                elm.bind("change",
+                    function(evt) {
+                        scope.$apply(function() {
+                            scope[attrs.name] = evt.target.files;
+                            console.log(scope[attrs.name]);
+                        });
+                    });
+            };
+        });
 }());
 
 (function() {
     "use strict";
 
     function fileUploadController($rootScope, $scope, $timeout, $window, $q, $http) {
-        var vm = this;
+        const vm = this;
 
         vm.startUploading = startUploading;
 
         function startUploading() {
-            if ($scope.transaction_file && $scope.transaction_file.length>0)
-            uploadFile($scope.transaction_file[0]).then(() => {
-                console.log("OK");
-            }).catch(err => {
-                console.log(err);
-            });
+            if ($scope.transaction_file && $scope.transaction_file.length > 0)
+                uploadFile($scope.transaction_file[0]).then(() => {
+                    console.log("OK");
+                }).catch(err => {
+                    console.log(err);
+                });
         }
 
 
@@ -48,7 +50,7 @@
             var deferred = $q.defer();
             if (file.size <= 1000000) {
                 const fd = new FormData();
-                fd.append('files', file);
+                fd.append("files", file);
                 $http.post("upload",
                         fd,
                         {
@@ -61,14 +63,14 @@
                         deferred.reject(reason.Message);
                     });
             } else {
-                deferred.reject('file too large');
+                deferred.reject("file too large");
             }
 
             return deferred.promise;
         }
     }
 
-    fileUploadController.$inject = ['$rootScope', '$scope', '$timeout', '$window', '$q', '$http'];
-    angular.module('myApp').controller('fileUploadController', fileUploadController);
+    fileUploadController.$inject = ["$rootScope", "$scope", "$timeout", "$window", "$q", "$http"];
+    angular.module("myApp").controller("fileUploadController", fileUploadController);
 
 }());

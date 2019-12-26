@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
 namespace testFileUpload.Models
 {
@@ -11,8 +7,10 @@ namespace testFileUpload.Models
     {
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
+
         [DataMember(Name = "payment", EmitDefaultValue = false)]
         public string Payment { get; set; }
+
         [DataMember(Name = "Status", EmitDefaultValue = false)]
         public string Status { get; set; }
     }
