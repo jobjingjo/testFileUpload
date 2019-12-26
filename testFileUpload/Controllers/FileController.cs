@@ -65,6 +65,10 @@ namespace testFileUpload.Controllers
                 {
                     case ImportResultStatus.InvalidType:
                         return BadRequest("Unknown format");
+
+                    case ImportResultStatus.InvalidSize:
+                        return BadRequest("Invalid size");
+
                     case ImportResultStatus.InvalidValidation:
                     {
                         var jsonMessage = JsonConvert.SerializeObject(importResult.Errors);
@@ -74,17 +78,21 @@ namespace testFileUpload.Controllers
 
                     case ImportResultStatus.SystemError:
                         return Problem();
+
                     case ImportResultStatus.NoData:
                         return BadRequest();
-                }
 
-                var success = await _transactionService.SaveTransaction(importResult.Transactions);
-                if (!success)
-                {
-                    return Problem();
-                }
+                    case ImportResultStatus.Ok:
+                        var success = await _transactionService.SaveTransaction(importResult.Transactions);
+                        if (!success)
+                        {
+                            return Problem();
+                        }
+                        return Ok();
 
-                return Ok();
+                    default:
+                        return Problem();
+                }
             }
         }
     }

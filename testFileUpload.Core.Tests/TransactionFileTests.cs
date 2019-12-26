@@ -28,6 +28,7 @@ namespace testFileUpload.Core.Tests
                     Status = XmlStatus.Rejected
                 }
             };
+            Console.WriteLine(file.ToXml());
             Assert.Inconclusive("Use this to create a test file");
         }
     }
