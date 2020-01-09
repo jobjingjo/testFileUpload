@@ -33,31 +33,29 @@
 
     function fileUploadService($q, $http) {
 
-        function uploadFile(file) {
-            var deferred = $q.defer();
-            if (file.size <= 1000000) {
-                const fd = new FormData();
-                fd.append("files", file);
-                $http.post("upload",
-                        fd,
-                        {
-                            transformRequest: angular.identity,
-                            headers: { "Content-Type": undefined }
-                        })
-                    .then(function (response) {
-                        deferred.resolve(true);
-                    })["catch"](function (reason) {
-                        deferred.reject(reason.Message);
-                    });
-            } else {
-                deferred.reject("file too large");
-            }
-
-            return deferred.promise;
-        }
-
         return {
-            uploadFile: uploadFile
+            uploadFile: function uploadFile(file) {
+                var deferred = $q.defer();
+                if (file.size <= 1000000) {
+                    const fd = new FormData();
+                    fd.append("files", file);
+                    $http.post("upload",
+                            fd,
+                            {
+                                transformRequest: angular.identity,
+                                headers: { "Content-Type": undefined }
+                            })
+                        .then(function (response) {
+                            deferred.resolve(true);
+                        })["catch"](function (reason) {
+                            deferred.reject(reason.Message);
+                        });
+                } else {
+                    deferred.reject("file too large");
+                }
+
+                return deferred.promise;
+            }
         };
     }
 
