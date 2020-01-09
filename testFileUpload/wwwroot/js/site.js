@@ -31,20 +31,7 @@
 (function () {
     "use strict";
 
-    function fileUploadController($rootScope, $scope, $timeout, $window, $q, $http) {
-        const vm = this;
-
-        function startUploading() {
-            if ($scope.transaction_file && $scope.transaction_file.length > 0)
-            {
-                uploadFile($scope.transaction_file[0]).then(() => {
-                    console.log("OK");
-                }).catch((err) => {
-                    console.log(err);
-                });
-            }
-        }
-
+    function fileUploadService($q, $http) {
 
         function uploadFile(file) {
             var deferred = $q.defer();
@@ -57,9 +44,9 @@
                             transformRequest: angular.identity,
                             headers: { "Content-Type": undefined }
                         })
-                    .then(function(response) {
+                    .then(function (response) {
                         deferred.resolve(true);
-                    })["catch"](function(reason) {
+                    })["catch"](function (reason) {
                         deferred.reject(reason.Message);
                     });
             } else {
@@ -69,10 +56,37 @@
             return deferred.promise;
         }
 
+        return {
+            uploadFile: uploadFile
+        };
+    }
+
+    fileUploadService.$inject = ["$q", "$http"];
+    angular.module("myApp").factory("fileUploadService", fileUploadService);
+
+}());
+
+(function () {
+    "use strict";
+
+    function fileUploadController(fileUploadService, $scope, $log) {
+        const vm = this;
+
+        function startUploading() {
+            if ($scope.transaction_file && $scope.transaction_file.length > 0)
+            {
+                fileUploadService.uploadFile($scope.transaction_file[0]).then(() => {
+                    $log.log("OK");
+                }).catch((err) => {
+                    $log.log(err);
+                });
+            }
+        }
+
         vm.startUploading = startUploading;
     }
 
-    fileUploadController.$inject = ["$rootScope", "$scope", "$timeout", "$window", "$q", "$http"];
+    fileUploadController.$inject = ["fileUploadService", "$scope", "$log"];
     angular.module("myApp").controller("fileUploadController", fileUploadController);
 
 }());
